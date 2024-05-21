@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { getMarker } from './constants';
+import { ACCESS_TOKEN, getMarker } from './constants';
 import isItWater from 'is-it-water';
 
 const useGoogleMap = (mapId) => {
@@ -11,11 +11,7 @@ const useGoogleMap = (mapId) => {
     const lat = latLng.lat();
     const lng = latLng.lng();
 
-    const isWater = await isItWater(
-      lat,
-      lng,
-      'AIzaSyDWzus96n6vzsziFdZ_LjMZ_2chBOUKAUM'
-    );
+    const isWater = await isItWater(lat, lng, ACCESS_TOKEN);
     console.info(`isWater: ${isWater}`);
 
     markerRef.current.setIcon({
@@ -52,11 +48,7 @@ const useGoogleMap = (mapId) => {
     const lat = latLng.lat();
     const lng = latLng.lng();
 
-    const isWater = await isItWater(
-      lat,
-      lng,
-      'AIzaSyDWzus96n6vzsziFdZ_LjMZ_2chBOUKAUM'
-    );
+    const isWater = await isItWater(lat, lng, ACCESS_TOKEN);
     console.info(`isWater: ${isWater}`);
 
     addMarker(lat, lng, isWater);
@@ -69,7 +61,6 @@ const useGoogleMap = (mapId) => {
       const map = new google.maps.Map(document.getElementById(mapId), {
         zoom: 4,
         center: myLatLng,
-        // disableDefaultUI: true,
         draggableCursor: 'default',
       });
 
@@ -80,7 +71,7 @@ const useGoogleMap = (mapId) => {
 
     if (!window.google) {
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDWzus96n6vzsziFdZ_LjMZ_2chBOUKAUM&callback=initMap`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${ACCESS_TOKEN}&callback=initMap`;
       script.async = true;
       window.initMap = initMap;
       document.head.appendChild(script);
