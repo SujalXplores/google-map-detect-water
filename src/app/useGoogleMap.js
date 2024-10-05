@@ -1,10 +1,13 @@
-import { useEffect, useRef } from 'react';
-import { ACCESS_TOKEN, getMarker } from './constants';
+import { useEffect, useRef, useState } from 'react';
+import { getMarker } from './constants';
 import isItWater from 'is-it-water';
+
+const ACCESS_TOKEN = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
 const useGoogleMap = (mapId) => {
   const mapRef = useRef(null);
   const markerRef = useRef(null);
+  const [infoData, setInfoData] = useState(null);
 
   const handleMarkerDragEnd = async (e) => {
     const { latLng } = e;
@@ -18,6 +21,8 @@ const useGoogleMap = (mapId) => {
       url: getMarker(isWater),
       anchor: new google.maps.Point(23, 40),
     });
+
+    setInfoData({ lat, lng, isWater });
   };
 
   const addMarker = async (lat, lng, isWater) => {
@@ -52,6 +57,7 @@ const useGoogleMap = (mapId) => {
     console.info(`isWater: ${isWater}`);
 
     addMarker(lat, lng, isWater);
+    setInfoData({ lat, lng, isWater });
   };
 
   useEffect(() => {
@@ -83,6 +89,7 @@ const useGoogleMap = (mapId) => {
   return {
     map: mapRef.current,
     marker: markerRef.current,
+    infoData,
   };
 };
 

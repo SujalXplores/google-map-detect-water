@@ -54,5 +54,3 @@ export const getMarker = (isWater) => {
   const marker = isWater ? INVALID_MARKER : VALID_MARKER;
   return 'data:image/svg+xml;charset=UTF-8;base64,' + btoa(marker);
 };
-
-export const ACCESS_TOKEN = 'AIzaSyDWzus96n6vzsziFdZ_LjMZ_2chBOUKAUM';

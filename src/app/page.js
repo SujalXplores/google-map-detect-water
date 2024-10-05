@@ -1,8 +1,22 @@
 'use client';
+
 import useGoogleMap from './useGoogleMap';
+import InfoBox from '@/components/infobox';
 
 export default function Home() {
-  useGoogleMap('map');
+  const { infoData } = useGoogleMap('map');
 
-  return <div id="map" style={{ width: '100%', height: '100%' }}></div>;
+  return (
+    <main>
+      <h1 className="sr-only">Water Detection Map</h1>
+      <div id="map" />
+      {infoData ? (
+        <InfoBox
+          isWater={infoData.isWater}
+          lat={infoData.lat}
+          lng={infoData.lng}
+        />
+      ) : null}
+    </main>
+  );
 }
